@@ -42,8 +42,10 @@ const destroy = (req, res) => {
             error:"Post not found"
         });
     }
-    postsData.splice(postsData.indexOf(post), 1)
-    res.sendStatus(204);
+    postsData.splice(postsData.indexOf(post), 1);
+    res.json({
+        error: `${post.title} has been deleted (RIP)`
+    });
 };
 
 module.exports = { index, show, store, update, modify, destroy};

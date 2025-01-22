@@ -7,7 +7,14 @@ const index = (req, res) => {
 
 // Show
 const show = (req, res) => { 
-    res.json(`Dettaglio del post: ${req.params.id}`)
+    const post = postsData.find((elm) => elm.id == req.params.id)
+    //res.json(`Dettaglio del post: ${req.params.id}`)//
+    if (!post) {
+        return res.status(404).json ({ // BONUS
+            error:"Post not found"
+        });
+    }
+    res.json(post);
 };
 
 // Store 
@@ -27,7 +34,16 @@ const modify = (req, res) => {
 
 // Delete
 const destroy = (req, res) => {
-    res.send(`Eliminazione del post: ${req.params.id}`)
+    //res.send(`Eliminazione del post: ${req.params.id}`)//
+    const post = postsData.find((elm) => elm.id == req.params.id);
+
+    if (!post) {
+        return res.status(404).json ({ // BONUS
+            error:"Post not found"
+        });
+    }
+    postsData.splice(postsData.indexOf(post), 1)
+    res.sendStatus(204);
 };
 
 module.exports = { index, show, store, update, modify, destroy};

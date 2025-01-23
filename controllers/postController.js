@@ -2,13 +2,20 @@ const postsData = require("../data/postsData")
 
 // Index
 const index = (req, res) => { 
-    res.json(postsData)
+    let postsFiltered = postsData;
+    const { tag } = req.query;
+    if (tag) {
+        postsFiltered = postsFiltered.filter((post) => 
+            post.tags.includes(tag))
+    }
+    res.json(postsFiltered)
 };
 
 // Show
 const show = (req, res) => { 
-    const post = postsData.find((elm) => elm.id == req.params.id)
-    //res.json(`Dettaglio del post: ${req.params.id}`)//
+    const {id} = req.params;
+
+    const post = postsData.find((elm) => elm.id == id)
     if (!post) {
         return res.status(404).json ({ // BONUS
             error:"Post not found"
@@ -19,6 +26,7 @@ const show = (req, res) => {
 
 // Store 
 const store = (req, res) => {
+    console.log(req.body);
     res.send("Creazione nuovo post")
 };
 
@@ -34,15 +42,16 @@ const modify = (req, res) => {
 
 // Delete
 const destroy = (req, res) => {
-    //res.send(`Eliminazione del post: ${req.params.id}`)//
-    const post = postsData.find((elm) => elm.id == req.params.id);
+    const {id} = req.params;
 
-    if (!post) {
-        return res.status(404).json ({ // BONUS
+    const post = postsData.findIndex((elm) => elm.id == id);
+
+    if (post < 0 ) {
+        return res.status(404).json ({ 
             error:"Post not found"
         });
     }
-    postsData.splice(postsData.indexOf(post), 1);
+    postsData.splice(post, 1);
     res.json({
         error: `${post.title} has been deleted (RIP)`
     });

@@ -4,23 +4,25 @@
 const express = require('express')
 const postController = require("../controllers/postController")
 const router = express.Router()
+const validationParamId = require("../middleware/validationParamId");
+
 
 // Index 
 router.get("/", postController.index);
 
 // Show
-router.get("/:id", postController.show);
+router.get("/:id", validationParamId, postController.show);
 
 // Store
 router.post("/", postController.store);
 
 // Update 
-router.put("/:id", postController.update);
+router.put("/:id", validationParamId,  postController.update);
 
 // Modify
-router.patch("/:id", postController.modify);
+router.patch("/:id", validationParamId, postController.modify);
 
 // Delete
-router.delete("/:id", postController.destroy);
+router.delete("/:id", validationParamId, postController.destroy);
 
 module.exports = router

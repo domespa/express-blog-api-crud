@@ -38,12 +38,27 @@ const store = (req, res) => {
     postsData.push(newPost)
 
 
-    res.send("Creazione nuovo post");
+    res.status(201).json(newPost);
 };
 
 // Update 
 const update = (req, res) => {
-    res.send(`Modifica totale del post: ${req.params.id}`)
+    const post = postsData.find((elm) => elm.id == req.params.id); 
+    if (!post) {
+        res.status(404);
+
+        return res.json({ 
+            error:"Post not found",
+        });
+    }
+
+    post.title = req.body.title;
+    post.content = req.body.content;
+    post.image = req.body.image;
+    post.tags = req.body.tags;
+
+
+    res.json(post);
 };
 
 // Modify

@@ -6,6 +6,7 @@ const postController = require("../controllers/postController")
 const router = express.Router()
 const validationParamId = require("../middleware/validationParamId");
 
+//router.param("/:id", validationParamId),//
 
 // Index 
 router.get("/", postController.index);

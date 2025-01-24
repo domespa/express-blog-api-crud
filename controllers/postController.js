@@ -14,7 +14,7 @@ const index = (req, res) => {
 // Show
 const show = (req, res) => { 
     const {id} = req.params;
-
+  
     const post = postsData.find((elm) => elm.id == id)
     if (!post) {
         return res.status(404).json ({ // BONUS
@@ -63,7 +63,22 @@ const update = (req, res) => {
 
 // Modify
 const modify = (req, res) => {
-    res.send(`Modifica parziale del post: ${req.params.id}`)
+    const post = postsData.find((elm) => elm.id == req.params.id); 
+    if (!post) {
+        res.status(404);
+
+        return res.json({ 
+            error:"Post not found",
+        });
+    }
+
+    post.title = req.body.title || post.title; 
+    post.content = req.body.content || post.content;
+    post.image = req.body.image || post.image;
+    post.tags = req.body.tags || post.tags;
+
+
+    res.json(post);
 };
 
 // Delete

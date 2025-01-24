@@ -3,6 +3,7 @@ const app = express();
 const port = 3005;
 const postsRouter = require("./routers/postsRouter.js");
 const errorsHandler = require("./middleware/errorsHandler.js");
+const notFound = require("./middleware/notFound.js")
 
 // Middleware global
 app.use(express.static("public"));
@@ -20,6 +21,7 @@ app.use("/posts", postsRouter);
 
 // Middleware errori
 app.use(errorsHandler);
+app.use(notFound);
 
 
 app.listen(port, () => {
